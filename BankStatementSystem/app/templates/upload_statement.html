@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Upload Statement{% endblock %}
+{% block page_title %}Upload Statement{% endblock %}
+{% block content %}
+<div class="card">
+  <h3>Upload Bank Statement (PDF)</h3>
+  <form id="upload-form" method="post" enctype="multipart/form-data" action="{{ url_for('main.upload_statement') }}">
+    <div class="upload-area" id="upload-area">
+      <p>Drag & drop PDF file here or click to select</p>
+      <input type="file" name="statement" id="file-input" accept="application/pdf" style="display:none;" />
+    </div>
+    <div id="file-info" class="empty-state" style="display:none;">
+      <p id="file-name"></p>
+      <p id="file-size"></p>
+      <button type="button" class="btn btn-secondary" id="clear-btn">Clear</button>
+    </div>
+    <button type="submit" class="btn btn-primary" id="upload-btn" disabled>Upload</button>
+    <div id="status" class="empty-state" style="margin-top:1rem;"></div>
+  </form>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{% endblock %}

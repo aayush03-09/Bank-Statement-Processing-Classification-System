@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Bank Statement System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Chart.js CDN (optional placeholder) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="layout">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="logo">BankStmt</div>
+        <a href="{{ url_for('main.dashboard') }}" class="{% if request.endpoint == 'main.dashboard' %}active{% endif %}">Dashboard</a>
+        <a href="{{ url_for('main.upload_statement') }}" class="{% if request.endpoint == 'main.upload_statement' %}active{% endif %}">Upload Statement</a>
+        <a href="{{ url_for('main.statements') }}" class="{% if request.endpoint == 'main.statements' %}active{% endif %}">Statements</a>
+        <a href="{{ url_for('main.transactions') }}" class="{% if request.endpoint == 'main.transactions' %}active{% endif %}">Transactions</a>
+        <a href="{{ url_for('main.analytics') }}" class="{% if request.endpoint == 'main.analytics' %}active{% endif %}">Analytics</a>
+        <a href="{{ url_for('main.review_queue') }}" class="{% if request.endpoint == 'main.review_queue' %}active{% endif %}">Review Queue</a>
+        <a href="{{ url_for('main.reports') }}" class="{% if request.endpoint == 'main.reports' %}active{% endif %}">Reports</a>
+        <a href="{{ url_for('main.settings') }}" class="{% if request.endpoint == 'main.settings' %}active{% endif %}">Settings</a>
+    </nav>
+
+    <!-- Main area -->
+    <div class="main-area" style="flex:1; display:flex; flex-direction:column;">
+        <header class="top-nav">
+            <div class="title">{% block page_title %}Dashboard{% endblock %}</div>
+            <div class="search">
+                {% block search %}{% endblock %}
+            </div>
+            <div class="profile">
+                {% if g.get('user') %}{{ g.user.username }}{% else %}Guest{% endif %}
+            </div>
+        </header>
+        <main class="main-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Statements{% endblock %}
+{% block page_title %}Statements History{% endblock %}
+{% block content %}
+<h2 class="page-title">Statements</h2>
+{% if statements %}
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Original Filename</th>
+        <th>Uploaded At</th>
+        <th>Pages</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for stmt in statements %}
+      <tr>
+        <td>{{ stmt.id }}</td>
+        <td>{{ stmt.original_filename }}</td>
+        <td>{{ stmt.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>{{ stmt.page_count or '—' }}</td>
+        <td>{{ stmt.processing_status }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <p>No statements have been uploaded yet.</p>
+  <a href="{{ url_for('main.upload_statement') }}" class="btn btn-primary">Upload a statement</a>
+</div>
+{% endif %}
+{% endblock %}
